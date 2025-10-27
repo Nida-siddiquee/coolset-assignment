@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
 import { GroceryItem, SortConfig } from "@/app/types";
 import Header from "@/components/Molecules/Header/Header";
@@ -18,34 +18,29 @@ const HomePage: React.FC<{ groceryItems: GroceryItem[] }> = ({
     direction: "asc",
   });
 
-  // Get unique sections
   const sections = Array.from(
     new Set(groceryItems.map((item) => item.section))
   ).sort();
 
-  // Filter and sort the groceries
-  const filteredAndSortedGroceries: GroceryItem[] = [...groceryItems]
-    .filter(
-      (item: GroceryItem) =>
-        !selectedSection || item.section === selectedSection
-    )
-    .sort((a: GroceryItem, b: GroceryItem) => {
-      if (!sortConfig.key || !sortConfig.direction) return 0;
+  const filteredAndSortedGroceries = useMemo(() => {
+    const filtered = selectedSection
+      ? groceryItems.filter((g) => g.section === selectedSection)
+      : groceryItems;
 
-      const sortValue = (item: (typeof groceryItems)[0]) => {
-        if (sortConfig.key === null) return 0;
-        return item[sortConfig.key];
-      };
+    if (!sortConfig.key) return filtered;
 
-      const aValue = sortValue(a);
-      const bValue = sortValue(b);
-
-      if (sortConfig.direction === "asc") {
-        return aValue > bValue ? 1 : -1;
-      } else {
-        return aValue < bValue ? 1 : -1;
-      }
+    return [...filtered].sort((a, b) => {
+      const aValue = a[sortConfig.key!];
+      const bValue = b[sortConfig.key!];
+      return sortConfig.direction === "asc"
+        ? aValue > bValue
+          ? 1
+          : -1
+        : aValue < bValue
+        ? 1
+        : -1;
     });
+  }, [groceryItems, selectedSection, sortConfig]);
 
   const totalItems = filteredAndSortedGroceries.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -80,13 +75,14 @@ const HomePage: React.FC<{ groceryItems: GroceryItem[] }> = ({
     setCurrentPage(1);
   };
   return (
-    <>
+    <div className="w-full max-w-4xl bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow-sm min-h-[600px] ">
       <Header
         sections={sections}
         onPageChange={handlePageChange}
         onSectionChange={setSelectedSection}
         title="Today's groceries"
-        sortConfig={sortConfig} handleSort={handleSort} 
+        sortConfig={sortConfig}
+        handleSort={handleSort}
       />
       <div className="overflow-x-auto -mx-4 sm:-mx-6 md:-mx-8">
         <div className="inline-block min-w-full align-middle px-4 sm:px-6 md:px-8">
@@ -123,7 +119,7 @@ const HomePage: React.FC<{ groceryItems: GroceryItem[] }> = ({
           />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
