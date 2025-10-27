@@ -14,19 +14,22 @@ const TableHead: React.FC<TableHeadProps> = ({ sortConfig, handleSort }) => {
         <tr>
           <th
             scope="col"
-            className="bg-gray-50 w-[30%] py-3 pl-4 pr-3 text-left text-xs sm:text-sm font-medium text-gray-500 border-r border-gray-200 last:border-r-0"
+            className="bg-gray-50 w-[30%] py-3 pl-4 pr-3 text-left text-xs sm:text-sm font-medium text-gray-500 border-r border-gray-200 "
+            aria-sort={sortConfig.key === null ? 'none' : undefined}
           >
             Name
           </th>
           <th
             scope="col"
-            className="bg-gray-50 w-[30%] px-3 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 border-r border-gray-200 last:border-r-0"
+            className="bg-gray-50 w-[30%] px-3 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 border-r border-gray-200 "
+            aria-sort={sortConfig.key === null ? 'none' : undefined}
           >
             Section
           </th>
           <th
             scope="col"
-            className="bg-gray-50 w-[20%] px-3 py-3 whitespace-nowrap text-left text-xs sm:text-sm font-medium text-gray-500 border-r border-gray-200 last:border-r-0"
+            className="bg-gray-50 w-[20%] px-3 py-3 whitespace-nowrap text-left text-xs sm:text-sm font-medium text-gray-500 border-r border-gray-200 "
+            aria-sort={sortConfig.key === 'price' ? (sortConfig.direction === 'asc' ? 'ascending' : 'descending') : 'none'}
           >
             <SortButton
               sortConfig={sortConfig}
@@ -37,7 +40,8 @@ const TableHead: React.FC<TableHeadProps> = ({ sortConfig, handleSort }) => {
           </th>
           <th
             scope="col"
-            className="bg-gray-50 w-[20%] pl-3 pr-4 py-3 whitespace-nowrap text-left text-xs sm:text-sm font-medium text-gray-500 last:border-r-0"
+            className="bg-gray-50 w-[20%] pl-3 pr-4 py-3 whitespace-nowrap text-left text-xs sm:text-sm font-medium text-gray-500 "
+            aria-sort={sortConfig.key === 'weight' ? (sortConfig.direction === 'asc' ? 'ascending' : 'descending') : 'none'}
           >
             <SortButton
               sortConfig={sortConfig}

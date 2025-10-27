@@ -5,6 +5,7 @@ import Header from "@/components/Molecules/Header/Header";
 import { PaginationNav } from "@/components/Molecules/PaginationNav/PaginationNav";
 import TableBody from "@/components/Molecules/TableBody/TableBody";
 import TableHead from "@/components/Molecules/TableHead/TableHead";
+import TableBodyMobile from "../TableBodyMobile/TableBodyMobile";
 
 const HomePage: React.FC<{ groceryItems: GroceryItem[] }> = ({
   groceryItems,
@@ -85,18 +86,31 @@ const HomePage: React.FC<{ groceryItems: GroceryItem[] }> = ({
         onPageChange={handlePageChange}
         onSectionChange={setSelectedSection}
         title="Today's groceries"
+        sortConfig={sortConfig} handleSort={handleSort} 
       />
       <div className="overflow-x-auto -mx-4 sm:-mx-6 md:-mx-8">
         <div className="inline-block min-w-full align-middle px-4 sm:px-6 md:px-8">
-          <div className="relative max-h-[500px] min-h-[500px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
-            <table
-              className="min-w-full table-auto divide-y divide-gray-200 border border-gray-200 "
-              aria-labelledby="grocery-list-title"
-              role="grid"
-            >
-              <TableHead sortConfig={sortConfig} handleSort={handleSort} />
-              <TableBody currentItems={currentItems} startIndex={startIndex} />
-            </table>
+          {/* Mobile: stacked cards */}
+          <TableBodyMobile
+            currentItems={currentItems}
+            startIndex={startIndex}
+          />
+
+          {/* Desktop/tablet: original table, hidden on small screens */}
+          <div className="hidden sm:block">
+            <div className="relative max-h-[500px] min-h-[500px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+              <table
+                className="min-w-full table-auto divide-y divide-gray-200 border border-gray-200 "
+                aria-labelledby="grocery-list-title"
+                role="grid"
+              >
+                <TableHead sortConfig={sortConfig} handleSort={handleSort} />
+                <TableBody
+                  currentItems={currentItems}
+                  startIndex={startIndex}
+                />
+              </table>
+            </div>
           </div>
 
           <PaginationNav

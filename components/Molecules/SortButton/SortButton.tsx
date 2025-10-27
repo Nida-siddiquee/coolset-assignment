@@ -2,9 +2,6 @@ import { SortConfig } from "@/app/types";
 import Icon from "@/components/Atoms/Icon/Icon";
 import React from "react";
 
-
-
-
 interface SortButtonProps {
   sortConfig: SortConfig;
   onSort: (key: "price" | "weight") => void;
@@ -38,19 +35,15 @@ export default function SortButton({
       onClick={() => handleSort(sortKey)}
       aria-label={`Sort by ${label} ${ariaDirectionHint}`}
     >
-    {" "}
+      {" "}
       {label}{" "}
       {sortConfig.key === sortKey && (
         <span className="text-gray-900">
-          {sortConfig.direction === "asc" ? (
-            <Icon src="/arrow-long-up.svg" alt="Up arrow" />
-          ) : (
-            <Icon
-              src="/arrow-long-up.svg"
-              alt="Down arrow"
-              className="rotate-180"
-            />
-          )}
+          <Icon
+            src="/arrow-long-up.svg"
+            alt="Up arrow"
+            className={sortConfig.direction === "asc" ? "" : "rotate-180"}
+          />
         </span>
       )}
     </button>

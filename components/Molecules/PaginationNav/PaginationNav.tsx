@@ -32,7 +32,7 @@ export const PaginationNav: React.FC<PaginationNavProps> = ({
                 </label>
                 <select
                     id="rows-per-page"
-                    className="bg-transparent text-gray-600 border border-gray-200 rounded-md focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="bg-transparent text-gray-600 border border-gray-200  p-2 focus:ring-2 focus:ring-offset-2 focus:ring-black focus:border-black"
                     value={itemsPerPage}
                     onChange={(e) => onItemsPerPageChange(Number(e.target.value))}
                     aria-label="Select number of rows per page"
@@ -44,7 +44,7 @@ export const PaginationNav: React.FC<PaginationNavProps> = ({
             </div>
 
             <div className="flex items-center gap-4">
-                <div className="hidden sm:block" aria-live="polite">
+                <div className="" aria-live="polite">
                     {startIndex + 1} - {Math.min(endIndex, totalItems)} of {totalItems}
                 </div>
                 <div className="flex gap-1">
